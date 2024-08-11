@@ -1,0 +1,22 @@
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0002.severity = none
+
+# IDE0160: Convert to block scoped namespace
+dotnet_diagnostic.IDE0160.severity = error
+
+# IDE0160: Convert to block scoped namespace
+csharp_style_namespace_declarations = file_scoped
+
+# IDE0130: Namespace does not match folder structure
+dotnet_diagnostic.IDE0130.severity = error
+
+# IDE0161: Convert to file-scoped namespace
+dotnet_diagnostic.IDE0161.severity = error
+
+[*]
+charset = utf-8
+indent_size = 4
+indent_style = tab
+insert_final_newline = true
+tab_width = 4
+trim_trailing_whitespace = true

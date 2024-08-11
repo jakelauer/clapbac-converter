@@ -1,0 +1,16 @@
+{
+	"recommendations": [
+		"jdforsythe.add-new-line-to-files",
+		"fernandoescolar.vscode-solution-explorer",
+		"jdforsythe.add-new-line-to-files",
+		"kishoreithadi.dotnet-core-essentials",
+		"kreativ-software.csharpextensions",
+		"ms-dotnettools.csdevkit",
+		"ms-dotnettools.csharp",
+		"ms-dotnettools.vscode-dotnet-runtime",
+		"patcx.vscode-nuget-gallery",
+		"formulahendry.dotnet-test-explorer",
+		"mechatroner.rainbow-csv",
+		"ryanluker.vscode-coverage-gutters"
+	]
+}
