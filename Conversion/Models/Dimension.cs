@@ -1,6 +1,6 @@
 using FFmpeg.NET.Enums;
 
-namespace Conversion.Models.OutputSettings;
+namespace Conversion.Models;
 
 using DimensionTuple = (int Width, int Height, VideoSize FFmpegClosestMatch);
 
