@@ -6,5 +6,5 @@ namespace Conversion.Models;
 public interface IConversionOutput
 {
 	public string OutputFilePath { get; set; }
-	public IOutputSetting OutputSettings { get; set; }
+	public IEnumerable<IOutputSetting> OutputSettings { get; set; }
 }

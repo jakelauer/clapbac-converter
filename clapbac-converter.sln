@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -18,6 +18,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{017D2A75-18FC-4273-98E3-224DB781E090}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conversion.Tests", "Conversion.Tests\Conversion.Tests.csproj", "{3F36E47A-2B91-40B9-BEDA-E6BAA1C4BA18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertQueue.Tests", "ConvertQueue.Tests\ConvertQueue.Tests.csproj", "{4695A8D5-5ED2-46B2-8ED4-D7267B31B71C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainArgs", "MainArgs\MainArgs.csproj", "{1D9D091C-3475-4767-9D4C-13374A8F0191}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,11 +57,20 @@ Global
 		{3F36E47A-2B91-40B9-BEDA-E6BAA1C4BA18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F36E47A-2B91-40B9-BEDA-E6BAA1C4BA18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F36E47A-2B91-40B9-BEDA-E6BAA1C4BA18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4695A8D5-5ED2-46B2-8ED4-D7267B31B71C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4695A8D5-5ED2-46B2-8ED4-D7267B31B71C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4695A8D5-5ED2-46B2-8ED4-D7267B31B71C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4695A8D5-5ED2-46B2-8ED4-D7267B31B71C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D9D091C-3475-4767-9D4C-13374A8F0191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D9D091C-3475-4767-9D4C-13374A8F0191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D9D091C-3475-4767-9D4C-13374A8F0191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D9D091C-3475-4767-9D4C-13374A8F0191}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{4695A8D5-5ED2-46B2-8ED4-D7267B31B71C} = {017D2A75-18FC-4273-98E3-224DB781E090}
 		{3F36E47A-2B91-40B9-BEDA-E6BAA1C4BA18} = {017D2A75-18FC-4273-98E3-224DB781E090}
 		{017D2A75-18FC-4273-98E3-224DB781E090} = {5B74EFDC-EFC3-4CC7-9E12-5C0FBD3770E7}
 		{E79C2E72-82B1-4703-A6C1-B726FF5F7449} = {5B74EFDC-EFC3-4CC7-9E12-5C0FBD3770E7}

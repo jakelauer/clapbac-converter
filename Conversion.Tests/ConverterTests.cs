@@ -37,7 +37,7 @@ public class ConverterTests
 			new Mock<IConversionOutput>().Object
 		]);
 
-		_converter = new Converter(_mockInput.Object, _mockLogger.Object);
+		_converter = new Converter(_mockLogger.Object);
 	}
 
 	[Test]
@@ -46,9 +46,9 @@ public class ConverterTests
 		var mockEngine = new MockEngineAdapter();
 		var ffmpegConvertMock = new Mock<FfmpegConversionAdapter>();
 
-		var converter = new Converter(_mockInput.Object, _mockLogger.Object, ffmpegConvertMock.Object);
+		var converter = new Converter(_mockLogger.Object, ffmpegConvertMock.Object);
 
-		await converter.Convert();
+		await converter.Convert(_mockInput.Object);
 
 		ffmpegConvertMock.Verify(ffmpeg => ffmpeg.ConvertAsync(
 			It.IsAny<IInputArgument>(),
@@ -60,6 +60,7 @@ public class ConverterTests
 	[Test]
 	public async Task FFmpegConvert_LogsCorrectInformation()
 	{
+		var mockEngine = new MockEngineAdapter();
 		var outputMock = new Mock<IConversionOutput>();
 		outputMock.Setup(output => output.OutputFilePath).Returns("output.mp4");
 
@@ -68,9 +69,9 @@ public class ConverterTests
 
 		var convertSpy = new Mock<Converter>(_mockInput.Object, _mockLogger.Object) { CallBase = true };
 
-		var converter = new Converter(_mockInput.Object, _mockLogger.Object);
-		await converter.Convert();
+		var converter = new Converter(_mockLogger.Object, mockEngine);
+		await converter.Convert(_mockInput.Object);
 
-		Assert.That(_mockInput.Object.Outputs, Has.Length.EqualTo(converter.OutputFileMap.Count + converter.OutputExceptions.Count));
+		Assert.That(_mockInput.Object.Outputs.Count(), Is.EqualTo(converter.OutputFileMap.Count + converter.OutputExceptions.Count));
 	}
 }

@@ -17,7 +17,7 @@ public class OutputSettingPresetsTests
 	public void SetUp()
 	{
 		_mockLogger = new Mock<ILogger<OutputSettingPresets>>();
-		_outputSettingPresets = new OutputSettingPresets(_mockLogger.Object);
+		_outputSettingPresets = [];
 	}
 
 	[Test]

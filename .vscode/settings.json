@@ -1,17 +1,10 @@
 {
 	"csharp.inlayHints.enableInlayHintsForImplicitVariableTypes": false,
-	"csharp.inlayHints.enableInlayHintsForTypes": true,
+	"csharp.inlayHints.enableInlayHintsForTypes": false,
 	"dotnet.inlayHints.enableInlayHintsForObjectCreationParameters": true,
 	"csharp.preview.improvedLaunchExperience": true,
 	"csharpextensions.useFileScopedNamespace": true,
 	"editor.defaultFormatter": null,
 	"dotnet-test-explorer.autoExpandTree": true,
 	"dotnet.backgroundAnalysis.analyzerDiagnosticsScope": "fullSolution",
-	"coverage-gutters.coverageReportFileName": "**/lcov.info",
-	"coverage-gutters.coverageFileNames": [
-		"lcov.info",
-	],
-	"coverage-gutters.showGutterCoverage": false,
-	"coverage-gutters.showRulerCoverage": true,
-	"coverage-gutters.showLineCoverage": true,
 }

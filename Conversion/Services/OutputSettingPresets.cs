@@ -5,6 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Conversion.Services;
 
+public interface IOutputSettingPresets
+{
+
+}
+
 public class OutputSettingPresets : Dictionary<RawOutputPresetNames, IEnumerable<IOutputSetting>>
 {
 	public struct PresetContext
@@ -16,12 +21,8 @@ public class OutputSettingPresets : Dictionary<RawOutputPresetNames, IEnumerable
 		public bool WithSubtitles;
 	}
 
-	private readonly ILogger<OutputSettingPresets> _logger;
-
-	public OutputSettingPresets(ILogger<OutputSettingPresets> logger)
+	public OutputSettingPresets()
 	{
-		_logger = logger;
-
 		GeneratePresets();
 	}
 
@@ -78,13 +79,5 @@ public class OutputSettingPresets : Dictionary<RawOutputPresetNames, IEnumerable
 			WithSubtitles = context.WithSubtitles,
 			OutputFormat = context.OutputFormat
 		});
-
-		_logger.LogInformation("[{Name}] Added preset: {Width}x{Height} {OutputFormat} {WithAudio} {WithSubtitles}",
-			context.Name,
-			context.Dimension.Width,
-			context.Dimension.Height,
-			context.OutputFormat,
-			context.WithAudio ? "with audio" : "without audio",
-			context.WithSubtitles ? "with subtitles" : "without subtitles");
 	}
 }

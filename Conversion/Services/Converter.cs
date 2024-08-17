@@ -5,12 +5,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Conversion.Services;
 
-public class Converter(IConversionInput input, ILogger<Converter> logger, IConversionEngine? engine = null)
+public interface IConverter
 {
-	private readonly ILogger<Converter> _logger = logger;
+	Task Convert(IConversionInput input);
+}
+
+public class Converter(ILogger<IConverter> logger, IConversionEngine? engine = null) : IConverter
+{
+	private readonly ILogger<IConverter> _logger = logger;
 	private readonly IConversionEngine _engine = engine ?? new FfmpegConversionAdapter();
-	private readonly IConversionInput _input = input;
-	private readonly InputFile _inputFile = new(input.InputFilePath);
 
 	public readonly Dictionary<int, string> OutputFileMap = [];
 	public readonly Dictionary<int, Exception> OutputExceptions = [];
@@ -20,16 +23,11 @@ public class Converter(IConversionInput input, ILogger<Converter> logger, IConve
 		return new Engine("/opt/homebrew/bin/ffmpeg");
 	}
 
-	public async Task Convert()
+	public async Task Convert(IConversionInput input)
 	{
-		try
-		{
-			await Task.WhenAll(_input.Outputs.Select((output, index) => FFmpegConvert(index, _inputFile, output)));
-		}
-		catch (Exception e)
-		{
-			_logger.LogError("Conversion failed: {message}", e.Message);
-		}
+		InputFile inputFile = new(input.InputFilePath);
+
+		await Task.WhenAll(input.Outputs.Select((output, index) => FFmpegConvert(index, inputFile, output)));
 	}
 
 	private async Task FFmpegConvert(int index, InputFile inputFile, IConversionOutput output)
