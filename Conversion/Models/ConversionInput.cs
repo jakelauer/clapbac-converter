@@ -1,15 +1,15 @@
-using Conversion.Services;
+using Conversion.Models.OutputSettings;
 
 namespace Conversion.Models;
 
-public class ConversionInput(string inputPath, OutputSettingPresets presets) : IConversionInput
+public class ConversionInput(string inputPath) : IConversionInput
 {
 	public string InputFilePath { get; set; } = inputPath;
-	public IEnumerable<IConversionOutput> Outputs { get; set; } = GenerateOutputs(inputPath, presets);
+	public IEnumerable<IConversionOutput> Outputs { get; set; } = GenerateOutputs(inputPath);
 
-	private static IEnumerable<IConversionOutput> GenerateOutputs(string inputPath, OutputSettingPresets presets)
+	private static IEnumerable<IConversionOutput> GenerateOutputs(string inputPath)
 	{
 		// Generate the output file paths
-		return presets.Values.Select(preset => new ConversionOutput(inputPath, preset));
+		return OutputSetting.Presets.Values.Select(preset => new ConversionOutput(inputPath, preset));
 	}
 }

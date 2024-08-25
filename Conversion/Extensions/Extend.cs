@@ -23,8 +23,8 @@ public static partial class ExtensionMethods
 	{
 		ArgumentNullException.ThrowIfNull(nameof(target));
 		ArgumentNullException.ThrowIfNull(nameof(source));
-		Type typeTarget = target.GetType();
-		Type typeSource = source.GetType();
+		Type typeTarget = target!.GetType();
+		Type typeSource = source!.GetType();
 		if (typeTarget != typeSource)
 		{
 			throw new ArgumentException("The target and source must be of the same type.");

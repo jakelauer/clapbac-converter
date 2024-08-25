@@ -29,7 +29,7 @@ public class ConvertQueueTests
 	[Test]
 	public void ConvertQueue_InitializesCorrectly()
 	{
-		Assert.IsNotNull(_convertQueue);
+		Assert.That(_convertQueue, Is.Not.Null);
 	}
 
 	[Test]

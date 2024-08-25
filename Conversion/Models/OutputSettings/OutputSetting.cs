@@ -17,4 +17,6 @@ public class OutputSetting : IOutputSetting
 	public bool WithSubtitles { get; set; }
 	public OutputFormats OutputFormat { get; set; }
 	public RawOutputPresetNames? OutputPresetName { get; set; }
+
+	public static OutputSettingPresets Presets { get; private set; } = new();
 }

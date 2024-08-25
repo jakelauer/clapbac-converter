@@ -1,7 +1,6 @@
 using Conversion.Enums;
 using Conversion.Models;
 using Conversion.Models.OutputSettings;
-using Conversion.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 
@@ -11,13 +10,11 @@ namespace Conversion.Tests;
 public class OutputSettingPresetsTests
 {
 	private Mock<ILogger<OutputSettingPresets>> _mockLogger;
-	private OutputSettingPresets _outputSettingPresets;
 
 	[SetUp]
 	public void SetUp()
 	{
 		_mockLogger = new Mock<ILogger<OutputSettingPresets>>();
-		_outputSettingPresets = [];
 	}
 
 	[Test]
@@ -26,9 +23,9 @@ public class OutputSettingPresetsTests
 		// Assert
 		foreach (var size in OutputSizes.Presets)
 		{
-			Assert.That(_outputSettingPresets.ContainsKey(size.Key), Is.True);
+			Assert.That(OutputSetting.Presets.ContainsKey(size.Key), Is.True);
 
-			var presets = _outputSettingPresets[size.Key];
+			var presets = OutputSetting.Presets[size.Key];
 			Assert.Multiple(() =>
 			{
 				Assert.That(presets.Count(), Is.EqualTo(Enum.GetValues<OutputFormats>().Length * 4));

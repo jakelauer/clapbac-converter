@@ -13,6 +13,19 @@ dotnet_diagnostic.IDE0130.severity = error
 # IDE0161: Convert to file-scoped namespace
 dotnet_diagnostic.IDE0161.severity = error
 
+[*.cs]
+# Require private fields to start with an underscore and be camelCase
+dotnet_naming_rule.private_fields_should_be_prefixed_with_underscore.severity = error
+dotnet_naming_rule.private_fields_should_be_prefixed_with_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_prefixed_with_underscore.style = private_fields_prefix_underscore
+
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_modifiers = readonly, static, const
+
+dotnet_naming_style.private_fields_prefix_underscore.capitalization = camel_case
+dotnet_naming_style.private_fields_prefix_underscore.required_prefix = _
+
 [*]
 charset = utf-8
 indent_size = 4
@@ -20,3 +33,6 @@ indent_style = tab
 insert_final_newline = true
 tab_width = 4
 trim_trailing_whitespace = true
+
+# IDE1006: Naming Styles
+dotnet_diagnostic.IDE1006.

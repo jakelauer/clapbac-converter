@@ -9,18 +9,21 @@ using System.Threading.Tasks;
 using Conversion.Models;
 using Conversion.Services;
 using Director;
+using Microsoft.Extensions.Logging;
 
 [TestFixture]
 public class ImporterTests
 {
 	private Mock<IConverter> _converterMock;
-	private Importer _importer;
+	private Mock<ILogger<IConversionDirector>> _loggerMock;
+	private ConversionDirector _conversionDirector;
 
 	[SetUp]
 	public void SetUp()
 	{
-		_converterMock = new Mock<IConverter>();
-		_importer = new Importer();
+		_converterMock = new();
+		_loggerMock = new();
+		_conversionDirector = new ConversionDirector(_loggerMock.Object, _converterMock.Object);
 	}
 
 	[Test]
@@ -31,7 +34,7 @@ public class ImporterTests
 		var subtitleFilePath = "subtitle.srt";
 
 		// Act
-		await _importer.Import(_converterMock.Object, videoFilePath, subtitleFilePath);
+		await _conversionDirector.Import(videoFilePath, subtitleFilePath);
 
 		// Assert
 		_converterMock.Verify(c => c.Convert(It.IsAny<ConversionInput>()), Times.Once);
@@ -45,7 +48,7 @@ public class ImporterTests
 		var subtitleFilePaths = new List<string> { "subtitle1.srt", "subtitle2.srt" };
 
 		// Act
-		await _importer.Import(_converterMock.Object, videoFilePaths, subtitleFilePaths);
+		await _conversionDirector.Import(videoFilePaths, subtitleFilePaths);
 
 		// Assert
 		_converterMock.Verify(c => c.Convert(It.IsAny<ConversionInput>()), Times.Exactly(videoFilePaths.Count));
@@ -59,7 +62,7 @@ public class ImporterTests
 		var subtitleFilePath = "subtitle.srt";
 
 		// Act
-		await _importer.Import(_converterMock.Object, videoFilePath, subtitleFilePath);
+		await _conversionDirector.Import(videoFilePath, subtitleFilePath);
 
 		// Assert
 		_converterMock.Verify(c => c.Convert(It.Is<ConversionInput>(input => input.InputFilePath.Contains(videoFilePath))), Times.Once);
@@ -73,7 +76,7 @@ public class ImporterTests
 		var subtitleFilePaths = new List<string> { "subtitle1.srt", "subtitle2.srt" };
 
 		// Act
-		await _importer.Import(_converterMock.Object, videoFilePaths, subtitleFilePaths);
+		await _conversionDirector.Import(videoFilePaths, subtitleFilePaths);
 
 		// Assert
 		foreach (var videoFilePath in videoFilePaths)

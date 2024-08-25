@@ -1,17 +1,21 @@
 using Conversion.Enums;
 using Conversion.Models;
-using Conversion.Models.OutputSettings;
 using Microsoft.Extensions.Logging;
 
-namespace Conversion.Services;
-
-public interface IOutputSettingPresets
-{
-
-}
+namespace Conversion.Models.OutputSettings;
 
 public class OutputSettingPresets : Dictionary<RawOutputPresetNames, IEnumerable<IOutputSetting>>
 {
+	public IEnumerable<IOutputSetting> GetPreset(RawOutputPresetNames presetName)
+	{
+		return this[presetName];
+	}
+
+	internal OutputSettingPresets()
+	{
+		GeneratePresets();
+	}
+
 	public struct PresetContext
 	{
 		public RawOutputPresetNames Name;
@@ -19,11 +23,6 @@ public class OutputSettingPresets : Dictionary<RawOutputPresetNames, IEnumerable
 		public OutputFormats OutputFormat;
 		public bool WithAudio;
 		public bool WithSubtitles;
-	}
-
-	public OutputSettingPresets()
-	{
-		GeneratePresets();
 	}
 
 	/// <summary>

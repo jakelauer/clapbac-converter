@@ -4,49 +4,86 @@ using CommandLine;
 using FoolProof.Core;
 using MainArgs;
 using Director;
+using Microsoft.Extensions.Logging;
 
-class Program
+namespace Main;
+
+public class Program
 {
-	static void Main(string[] args)
+	private static Func<SearchOptions, GlobSearch> _globSearchFactory = opts => new GlobSearch(opts);
+	private static IServiceProvider? _serviceProvider;
+
+	public static void SetGlobSearchFactory(Func<SearchOptions, GlobSearch> factory)
 	{
-		Parser.Default.ParseArguments<Options>(args)
-			  .WithParsed(RunOptions);
+		_globSearchFactory = factory;
 	}
 
-	static async void RunOptions(Options opts)
+	public static void SetServiceProvider(IServiceProvider serviceProvider)
+	{
+		_serviceProvider = serviceProvider;
+	}
+
+	public static void Main(string[] args)
+	{
+		var result = Parser.Default.ParseArguments<ConvertOptions, QueueOptions, SearchOptions>(args)
+			.WithParsed<ConvertOptions>(Convert)
+			.WithParsed<QueueOptions>(Queue)
+			.WithParsed<SearchOptions>(Search);
+	}
+
+	public static void Convert(ConvertOptions opts)
+	{
+		DoConversion(new List<string> { opts.Video }, new List<string> { opts.Subtitle }).Wait();
+	}
+
+	public static void Queue(QueueOptions opts)
+	{
+		DoConversion(opts.Video, opts.Subtitle).Wait();
+	}
+
+	public static void Search(SearchOptions opts)
+	{
+		var globSearch = _globSearchFactory(opts);
+		var (videoFiles, subtitleFiles) = globSearch.SearchFiles();
+		DoConversion(videoFiles, subtitleFiles).Wait();
+	}
+
+	public static async Task DoConversion(IEnumerable<string> videoFilePaths, IEnumerable<string> subtitleFilePaths)
 	{
 		// Set up the service collection
 		var serviceCollection = new ServiceCollection();
 		ConfigureServices(serviceCollection);
 
-		// Build the service provider
-		var serviceProvider = serviceCollection.BuildServiceProvider();
+		// Build the service provider if not set
+		var serviceProvider = _serviceProvider ?? serviceCollection.BuildServiceProvider();
 
 		// Your application logic here
-		var importer = serviceProvider.GetService<IImporter>();
-		var converter = serviceProvider.GetService<IConverter>();
+		var director = serviceProvider.GetService<IConversionDirector>()
+			?? throw new NullReferenceException("Director is null");
 
-		if (importer == null || converter == null)
+		await director.Import(videoFilePaths, subtitleFilePaths);
+
+		// Dispose of the service provider
+		if (serviceProvider is IDisposable disposable)
 		{
-			Console.WriteLine("Failed to get services");
-			return;
+			disposable.Dispose();
 		}
-
-		await importer.Import(converter, opts.Input, opts.Output);
-
-		// Use the input and output arguments
-		Console.WriteLine($"Input: {opts.Input}");
-		Console.WriteLine($"Output: {opts.Output}");
-
-		Console.ReadLine();
 	}
 
-	static void ConfigureServices(IServiceCollection services)
+	public static void ConfigureServices(IServiceCollection services)
 	{
 		// Add FoolProof services if needed
 		services.AddFoolProof();
 
+		// Register logging services
+		services.AddLogging(configure =>
+		{
+			configure.AddConsole(); // You can add other providers, like Debug, EventSource, etc.
+		});
+
 		// Register your own services
-		services.AddTransient<Converter>();
+		services.AddTransient<IConverter, Converter>();
+		services.AddTransient<IConversionDirector, ConversionDirector>();
+		services.AddTransient<IConversionEngine, FfmpegConversionAdapter>();
 	}
 }
